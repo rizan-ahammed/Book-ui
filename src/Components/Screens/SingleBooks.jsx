@@ -31,13 +31,34 @@ function SingleFood() {
       });
   };
   const deleteUser = async (id) => {
-    await axios.delete(`http://127.0.0.1:8000/api/v1/books/${id}/delete/`);
+    await axios.delete(`http://127.0.0.1:8000/api/v1/books/${id}/delete/`, {
+      headers: {
+        Authorization: `Bearer ${userData?.access}`,
+      },
+    });
     navi("/home");
   };
   const add_to_favorites = async (id) => {
-    await axios.post(`http://127.0.0.1.8000/api/v1/books/${id}/add-to-favorites/`);
-    navi("/home");
-  };  
+    console.log(id, "==id ==");
+    await axios
+      .post(`http://127.0.0.1:8000/api/v1/books/${id}/add-to-favorites/`, {
+        headers: {
+          Authorization: `Bearer ${userData?.access}`,
+        },
+      })
+      .then((response) => {
+        console.log(response, "==favourite");
+        if (response.data.status_code === 6000) {
+          const favorites = document.getElementById("Favourites");
+          favorites.style.display = "none";
+          const fav = document.getElementById("fav");
+          fav.style.display = "block";
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const renderFoods = () => {
     return (
       <>
@@ -54,10 +75,14 @@ function SingleFood() {
               {" "}
               <Delete>Update Post</Delete>
             </Link>
+            <Delete onClick={() => add_to_favorites(des.id)} id="Favourites">
+              Add to Favourite
+            </Delete>
+            <Fav id="fav">Favourite</Fav>
 
             <PublisherName> Publisher: {des.author}</PublisherName>
           </DeleteContainer>
-          
+
           <FoodCard>
             <LeftContainer>
               <ImageContainer>
@@ -71,7 +96,6 @@ function SingleFood() {
             <Cont>{des.title}</Cont>
             {/* <Top>Description  : </Top>
             <Cont>{des.description}</Cont> */}
-            
           </Content>
         </MainContainer>
       </>
@@ -147,4 +171,12 @@ const Cont = styled.p`
   font-size: 18px;
   line-height: 1.5rem;
   font-weight: 400;
+`;
+const Fav = styled.div`
+  display: none;
+  color: green;
+  border: 2px solid green;
+  border-radius: 30px;
+  padding: 4px 8px;
+  margin-left: 10px;
 `;
