@@ -27,17 +27,13 @@ function UpdateRecipie() {
     let formField = new FormData();
     console.log(ID);
 
-    formField.append("author", bookName);
-    formField.append("title", name);
-    formField.append("description", description);
-    formField.append("categories", JSON.stringify(categories)); // Convert to JSON string
-    // formField.append("favorite", favorite);
-    // formField.append("ingredients", ingredients);
-    if (image !== null) {
-      formField.append("featured_image", image);
-    }
+    bookName && formField.append("author", bookName);
+    name && formField.append("title", name);
+    categories && formField.append("categories", categories);
+    image && formField.append("featured_image", image);
+
     await axios({
-      method: "PUT",
+      method: "POST",
       url: `http://127.0.0.1:8000/api/v1/books/${ID}/update/`,
       headers: {
         Authorization: `Bearer ${userData?.access}`,
@@ -94,7 +90,7 @@ function UpdateRecipie() {
             onChange={(e) => setBookName(e.target.value)}
           />
         </InputContainer>
-        /
+
         <InputContainer>
           <Label for="id_categories">Categories</Label>
           <TextInput
@@ -104,25 +100,6 @@ function UpdateRecipie() {
             value={categories}
             onChange={(e) => setCategories(e.target.value)}
           />
-        </InputContainer>
-        <InputContainer>
-          <Label for="id_favorite">Favorite</Label>
-          <TextInput
-            type="checkbox"
-            id="id_favorite"
-            checked={favorite}
-            onChange={(e) => setFavorite(e.target.checked)}
-          />
-        </InputContainer>
-        <InputContainer>
-          <Label for="id_description">Description</Label>
-          <TextArea
-            id="id_description"
-            rows="4"
-            cols="50"
-            name="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}></TextArea>
         </InputContainer>
         <ButtonContainer>
           <Link>

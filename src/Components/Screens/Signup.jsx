@@ -61,7 +61,7 @@ function Signup() {
         <RightContainer>
           <LoginContainer>
             <LoginHeading>Register into Account</LoginHeading>
-            <LoginInfo>Create an account to acccess all the features</LoginInfo>
+            <LoginInfo>Create and Explore the world of Books</LoginInfo>
             <Form onSubmit={onHandleSubmit}>
               <InputContainer>
                 <TextInput

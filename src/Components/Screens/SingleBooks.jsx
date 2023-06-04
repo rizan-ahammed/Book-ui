@@ -34,6 +34,10 @@ function SingleFood() {
     await axios.delete(`http://127.0.0.1:8000/api/v1/books/${id}/delete/`);
     navi("/home");
   };
+  const add_to_favorites = async (id) => {
+    await axios.post(`http://127.0.0.1.8000/api/v1/books/${id}/add-to-favorites/`);
+    navi("/home");
+  };  
   const renderFoods = () => {
     return (
       <>
@@ -53,6 +57,7 @@ function SingleFood() {
 
             <PublisherName> Publisher: {des.author}</PublisherName>
           </DeleteContainer>
+          
           <FoodCard>
             <LeftContainer>
               <ImageContainer>
@@ -66,6 +71,7 @@ function SingleFood() {
             <Cont>{des.title}</Cont>
             {/* <Top>Description  : </Top>
             <Cont>{des.description}</Cont> */}
+            
           </Content>
         </MainContainer>
       </>
